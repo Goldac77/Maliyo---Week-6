@@ -5,13 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager singleton;
-
     private GroundPiece[] allGroundPieces;
+
+    AudioSource gameMusic;
+    [SerializeField] List<AudioClip> gameMusicClips = new List<AudioClip>();
+    int randomGameMusicClip;
+
+    [SerializeField] GameObject levelCompleteUI;
 
     private void Start()
     {
         SetupNewLevel();
+        if (levelCompleteUI.activeInHierarchy)
+        {
+            levelCompleteUI.SetActive(false);
+        }
     }
 
     private void SetupNewLevel()
@@ -19,14 +27,20 @@ public class GameManager : MonoBehaviour
         allGroundPieces = FindObjectsOfType<GroundPiece>();
     }
 
+    private void PlayRandomGameMusic()
+    {
+        if(gameMusic.isPlaying)
+        {
+            gameMusic.Stop();
+        }
+        randomGameMusicClip = Random.Range(0, gameMusicClips.Count);
+        gameMusic.PlayOneShot(gameMusicClips[randomGameMusicClip], 0.7f);
+    }
+
     private void Awake()
     {
-        if (singleton == null)
-            singleton = this;
-        else if (singleton != this)
-            Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
+        gameMusic = GetComponent<AudioSource>();
+        PlayRandomGameMusic();
     }
 
     private void OnEnable()
@@ -53,12 +67,20 @@ public class GameManager : MonoBehaviour
         }
 
         if (isFinished)
-            NextLevel();
+        {
+            levelCompleteUI.SetActive(true);
+        }
     }
 
-    private void NextLevel()
+    public void NextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if(SceneManager.GetActiveScene().buildIndex >= SceneManager.sceneCountInBuildSettings - 1)
+        {
+            SceneManager.LoadScene("MainMenu");
+        } else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 
 }

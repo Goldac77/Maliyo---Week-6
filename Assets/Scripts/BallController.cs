@@ -30,13 +30,11 @@ public class BallController : MonoBehaviour
         solveColor = Random.ColorHSV(.5f, 1); // Only take pretty light colors
         GetComponent<MeshRenderer>().material.color = solveColor;
         minSwipeRecognition = Screen.height / 10;
-        var main = rollingParticle.main;
-        main.startColor = solveColor;
+        rollingParticle.GetComponent<ParticleSystemRenderer>().material.color = solveColor;
     }
 
     private void FixedUpdate()
     {
-        wallHitAudioSource.pitch = Random.Range(0.9f, 1.1f);
         // Set the ball's speed when it should travel
         if (isTraveling)
         {
@@ -66,6 +64,7 @@ public class BallController : MonoBehaviour
                 isTraveling = false;
                 travelDirection = Vector3.zero;
                 nextCollisionPosition = Vector3.zero;
+                wallHitAudioSource.pitch = Random.Range(0.9f, 1.1f);
                 wallHitAudioSource.Play();
             }
         }
@@ -109,7 +108,6 @@ public class BallController : MonoBehaviour
             }
             else
             {
-      
                 SetDestination(Vector3.back);
                 rollingParticle.transform.localEulerAngles = new Vector3(0, 300, 0);
             }
@@ -138,7 +136,7 @@ public class BallController : MonoBehaviour
 
                 currentSwipe.Normalize(); // Normalize it to only get the direction not the distance (would fake the ball's speed)
 
-                // Up/Down swipe
+                // Left/Right swipe
                 if (Mathf.Abs(currentSwipe.x) < 0.8f)
                 {
                     if (currentSwipe.x > 0)
@@ -153,7 +151,7 @@ public class BallController : MonoBehaviour
                     }
                 }
 
-                // Left/Right swipe
+                // Up/Down swipe
                 if (Mathf.Abs(currentSwipe.y) < 0.8f)
                 {
                     if (currentSwipe.y > 0)
