@@ -20,15 +20,23 @@ public class BallController : MonoBehaviour
 
     private Color solveColor;
 
+    public ParticleSystem rollingParticle;
+
+    [SerializeField] AudioSource wallHitAudioSource;
+    [SerializeField] AudioSource slidingAudioSource;
+
     private void Start()
     {
         solveColor = Random.ColorHSV(.5f, 1); // Only take pretty light colors
         GetComponent<MeshRenderer>().material.color = solveColor;
         minSwipeRecognition = Screen.height / 10;
+        var main = rollingParticle.main;
+        main.startColor = solveColor;
     }
 
     private void FixedUpdate()
     {
+        wallHitAudioSource.pitch = Random.Range(0.9f, 1.1f);
         // Set the ball's speed when it should travel
         if (isTraveling)
         {
@@ -58,11 +66,55 @@ public class BallController : MonoBehaviour
                 isTraveling = false;
                 travelDirection = Vector3.zero;
                 nextCollisionPosition = Vector3.zero;
+                wallHitAudioSource.Play();
             }
         }
 
         if (isTraveling)
+        {
+            if (!rollingParticle.isEmitting)
+            {
+                rollingParticle.Play();
+                slidingAudioSource.Play();
+            }
             return;
+        } else
+        {
+            rollingParticle.Stop();
+            slidingAudioSource.Stop();
+        } 
+        
+        //For testing on pc
+        //TODO: Comment out
+        if(Input.GetAxis("Horizontal") != 0)
+        {
+            if(Input.GetAxis("Horizontal") > 0)
+            {
+                SetDestination(Vector3.right);
+                rollingParticle.transform.localEulerAngles = new Vector3(0, 200, 0);
+            }
+            else
+            {
+                SetDestination(Vector3.left);
+                //mantain particle default rotation
+            }
+        }
+
+        if(Input.GetAxis("Vertical") != 0)
+        {
+            if(Input.GetAxis("Vertical") > 0)
+            {
+                SetDestination(Vector3.forward);
+                rollingParticle.transform.localEulerAngles = new Vector3(0, 100, 0);
+            }
+            else
+            {
+      
+                SetDestination(Vector3.back);
+                rollingParticle.transform.localEulerAngles = new Vector3(0, 300, 0);
+            }
+        }
+        //for testing on pc code ends here
 
         // Swipe mechanism
         if (Input.touchCount > 0)
@@ -89,13 +141,32 @@ public class BallController : MonoBehaviour
                 // Up/Down swipe
                 if (Mathf.Abs(currentSwipe.x) < 0.8f)
                 {
-                    SetDestination(currentSwipe.y > 0 ? Vector3.forward : Vector3.back);
+                    if (currentSwipe.x > 0)
+                    {
+                        SetDestination(Vector3.right);
+                        rollingParticle.transform.localEulerAngles = new Vector3(0, 200, 0);
+                    }
+                    else
+                    {
+                        SetDestination(Vector3.left);
+                        //mantain particle default rotation
+                    }
                 }
 
                 // Left/Right swipe
                 if (Mathf.Abs(currentSwipe.y) < 0.8f)
                 {
-                    SetDestination(currentSwipe.x > 0 ? Vector3.right : Vector3.left);
+                    if (currentSwipe.y > 0)
+                    {
+                        SetDestination(Vector3.forward);
+                        rollingParticle.transform.localEulerAngles = new Vector3(0, 100, 0);
+                    }
+                    else
+                    {
+                        SetDestination(Vector3.back);
+                        rollingParticle.transform.localEulerAngles = new Vector3(0, 300, 0);
+                    }
+                    //SetDestination(currentSwipe.y > 0 ? Vector3.forward : Vector3.back);
                 }
 
                 swipePosLastFrame = swipePosCurrentFrame; // Update last frame position

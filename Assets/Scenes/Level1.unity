@@ -2725,6 +2725,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GroundPiecePrefab (45)
       objectReference: {fileID: 0}
+    - target: {fileID: 9125857589057124013, guid: e6f5eb62a8ee8144eb1a160cfece8119, type: 3}
+      propertyPath: isColored
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2825,10 +2829,6 @@ PrefabInstance:
     - target: {fileID: 4024817593937064506, guid: 968ceca3600fb0f469d0d46721f26410, type: 3}
       propertyPath: m_Name
       value: BallPrefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4024817593937064510, guid: 968ceca3600fb0f469d0d46721f26410, type: 3}
-      propertyPath: m_RootOrder
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4024817593937064510, guid: 968ceca3600fb0f469d0d46721f26410, type: 3}
       propertyPath: m_LocalPosition.x
