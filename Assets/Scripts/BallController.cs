@@ -85,7 +85,7 @@ public class BallController : MonoBehaviour
         
         //For testing on pc
         //TODO: Comment out
-        if(Input.GetAxis("Horizontal") != 0)
+        /*if(Input.GetAxis("Horizontal") != 0)
         {
             if(Input.GetAxis("Horizontal") > 0)
             {
@@ -111,7 +111,7 @@ public class BallController : MonoBehaviour
                 SetDestination(Vector3.back);
                 rollingParticle.transform.localEulerAngles = new Vector3(0, 300, 0);
             }
-        }
+        }*/
         //for testing on pc code ends here
 
         // Swipe mechanism
@@ -137,7 +137,7 @@ public class BallController : MonoBehaviour
                 currentSwipe.Normalize(); // Normalize it to only get the direction not the distance (would fake the ball's speed)
 
                 // Left/Right swipe
-                if (Mathf.Abs(currentSwipe.x) < 0.8f)
+                if (Mathf.Abs(currentSwipe.x) > 0.8f && Mathf.Abs(currentSwipe.x) > Mathf.Abs(currentSwipe.y))
                 {
                     if (currentSwipe.x > 0)
                     {
@@ -152,7 +152,7 @@ public class BallController : MonoBehaviour
                 }
 
                 // Up/Down swipe
-                if (Mathf.Abs(currentSwipe.y) < 0.8f)
+                if (Mathf.Abs(currentSwipe.y) > 0.8f && Mathf.Abs(currentSwipe.y) > Mathf.Abs(currentSwipe.x))
                 {
                     if (currentSwipe.y > 0)
                     {
@@ -164,7 +164,6 @@ public class BallController : MonoBehaviour
                         SetDestination(Vector3.back);
                         rollingParticle.transform.localEulerAngles = new Vector3(0, 300, 0);
                     }
-                    //SetDestination(currentSwipe.y > 0 ? Vector3.forward : Vector3.back);
                 }
 
                 swipePosLastFrame = swipePosCurrentFrame; // Update last frame position

@@ -1890,6 +1890,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1504507320790134678, guid: e6f5eb62a8ee8144eb1a160cfece8119, type: 3}
   m_PrefabInstance: {fileID: 736733912}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &742191506 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8977668879196044040, guid: 7180502a010af1d4890e9320e6f7004c, type: 3}
+  m_PrefabInstance: {fileID: 6809999161838614527}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &749475017
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5123,6 +5134,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7306203623011731255, guid: 005b714d9e231b04885c68ea0907be95, type: 3}
+      propertyPath: nextButton
+      value: 
+      objectReference: {fileID: 742191506}
+    - target: {fileID: 7306203623011731255, guid: 005b714d9e231b04885c68ea0907be95, type: 3}
       propertyPath: levelCompleteUI
       value: 
       objectReference: {fileID: 6809999161838614528}
@@ -5139,17 +5154,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1966873051}
     m_Modifications:
-    - target: {fileID: 1703906797838862493, guid: 7180502a010af1d4890e9320e6f7004c, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6605628316470290019, guid: 7180502a010af1d4890e9320e6f7004c, type: 3}
       propertyPath: m_Name
       value: Level Complete
-      objectReference: {fileID: 0}
-    - target: {fileID: 6605628316470290019, guid: 7180502a010af1d4890e9320e6f7004c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8716956628759724017, guid: 7180502a010af1d4890e9320e6f7004c, type: 3}
       propertyPath: m_Pivot.x

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,19 +13,25 @@ public class GameManager : MonoBehaviour
     int randomGameMusicClip;
 
     [SerializeField] GameObject levelCompleteUI;
+    [SerializeField] Button nextButton;
+    Button nextButtonComponent;
 
     private void Start()
     {
+        levelCompleteUI.SetActive(false);
         SetupNewLevel();
-        if (levelCompleteUI.activeInHierarchy)
-        {
-            levelCompleteUI.SetActive(false);
-        }
     }
 
     private void SetupNewLevel()
     {
         allGroundPieces = FindObjectsOfType<GroundPiece>();
+        if (SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCountInBuildSettings - 1)
+        {
+            DisableNextButton();
+        } else
+        {
+            EnableNextButton();
+        }
     }
 
     private void PlayRandomGameMusic()
@@ -34,11 +41,16 @@ public class GameManager : MonoBehaviour
             gameMusic.Stop();
         }
         randomGameMusicClip = Random.Range(0, gameMusicClips.Count);
-        gameMusic.PlayOneShot(gameMusicClips[randomGameMusicClip], 0.7f);
+        gameMusic.clip = gameMusicClips[randomGameMusicClip];
+        gameMusic.Play();
     }
 
     private void Awake()
     {
+        if(nextButton != null)
+        {
+            nextButtonComponent = nextButton.GetComponent<Button>();
+        }
         gameMusic = GetComponent<AudioSource>();
         PlayRandomGameMusic();
     }
@@ -72,15 +84,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void DisableNextButton()
+    {
+        if(nextButton != null)
+        {
+            nextButtonComponent.interactable = false;
+        } 
+    }
+
+    void EnableNextButton()
+    {
+        if(!nextButtonComponent.interactable)
+        {
+            nextButtonComponent.interactable = true;
+        }
+    }
+
     public void NextLevel()
     {
-        if(SceneManager.GetActiveScene().buildIndex >= SceneManager.sceneCountInBuildSettings - 1)
-        {
-            SceneManager.LoadScene("MainMenu");
-        } else
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
 }
